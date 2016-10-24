@@ -21,7 +21,7 @@
         <options>
             <source_files>
                 <source_file filepath="true">pointers.c</source_file>
-                <source_file filepath="true">media_interrupt.c</source_file>
+                <source_file filepath="true">main.c</source_file>
                 <source_file filepath="true">exception_handler.c</source_file>
                 <source_file filepath="true">globals.c</source_file>
                 <source_file filepath="true">interval_timer_ISR.c</source_file>

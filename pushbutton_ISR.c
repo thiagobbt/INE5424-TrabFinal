@@ -8,8 +8,8 @@ extern volatile int buffer_index;
  * values and stores in the variable pattern
 ****************************************************************************************/
 void pushbutton_ISR() {
-	/*volatile int * KEY_ptr = (int*) 0x10000050;
-	volatile int * audio_ptr = (int*) 0x10003040;	// audio port address
+	/*volatile int* KEY_ptr = (int*) 0x10000050;
+	volatile int* audio_ptr = (int*) 0x10003040;	// audio port address
 	
 	int KEY_value;
 
