@@ -27,11 +27,8 @@ int main() {
 	LCD_text(text_top_LCD);
 	LCD_cursor_off();			// turn off the LCD cursor 
 
-	// the following variables give the size of the pixel buffer
-	int screen_x = 319;
-	int screen_y = 239;
 	short color = 0x1863;		// a dark grey color
-	VGA_box(0, 0, screen_x, screen_y, color);	// fill the screen with grey
+	VGA_box(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, color);	// fill the screen with grey
 	VGA_text(0, 0, text);
 
 	while (1) {
