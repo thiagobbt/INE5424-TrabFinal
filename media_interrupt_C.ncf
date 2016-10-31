@@ -4,7 +4,7 @@
         <system_info filepath="true">../../verilog/nios_system.sopcinfo</system_info>
         <system_sof filepath="true">../../verilog/DE2_Media_Computer.sof</system_sof>
         <system_jdi filepath="true">../../verilog/DE2_Media_Computer.jdi</system_jdi>
-        <cable>USB-Blaster [1-2]</cable>
+        <cable>USB-Blaster [3-1.3]</cable>
         <processor JTAGHubInstanceID="0">CPU</processor>
         <elf_section name="text">
             <memory_device>SDRAM/s1</memory_device>
@@ -27,6 +27,7 @@
                 <source_file filepath="true">interval_timer_ISR.c</source_file>
                 <source_file filepath="true">PS2_ISR.c</source_file>
                 <source_file filepath="true">pushbutton_ISR.c</source_file>
+                <source_file filepath="true">utils.c</source_file>
             </source_files>
             <compiler_flags>-g -O1 -ffunction-sections -fverbose-asm -fno-inline</compiler_flags>
             <emulate_unimpl_instructions>true</emulate_unimpl_instructions>

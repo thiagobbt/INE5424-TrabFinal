@@ -19,12 +19,12 @@ void interrupt_handler();
 int main() {
 	init();
 
-	// create a messages to be displayed on the VGA and LCD displays
-	char text_top_LCD[80] = "Welcome to the DE2 Media Computer...\0";
-
 	// output text message to the LCD
 	LCD_cursor(0,0);			// set LCD cursor location to top row
-	LCD_text(text_top_LCD);
+	LCD_text("INE5424\0");
+
+	LCD_cursor(0, 1);
+	LCD_text("VGA\0");
 	LCD_cursor_off();			// turn off the LCD cursor 
 
 	short color = 0x1863;		// a dark grey color

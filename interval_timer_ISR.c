@@ -13,6 +13,6 @@ void interval_timer_ISR() {
 	timeout = 1;															// set global variable
 
 	/* shift the LCD display to the left */
-	*(LCD_display_ptr) = 0x18;	// instruction = shift left
+	//*(LCD_display_ptr) = 0x18;	// instruction = shift left
 }
 

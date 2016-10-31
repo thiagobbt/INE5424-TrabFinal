@@ -50,8 +50,18 @@ void LCD_text(char* text_ptr) {
 	}
 }
 
+void LCD_clear() {
+	*(LCD_display_ptr) = 0x01;
+}
+
 void LCD_cursor_off() {
 	*(LCD_display_ptr) = 0x0C;
+}
+
+short VGA_get_color(unsigned char R, unsigned char G, unsigned char B) {
+	return ((R * 31 / 255) << 11) |
+		   ((G * 63 / 255) << 5) |
+		   ((B * 31 / 254));
 }
 
 void VGA_text(int x, int y, char* text_ptr) {
@@ -91,16 +101,27 @@ void VGA_box(int x1, int y1, int x2, int y2, short pixel_color) {
 	}
 }
 
+float abs(float n) {
+	return n > 0 ? n : -n;
+}
+
 void VGA_draw_line(int x1, int y1, int x2, int y2, short pixel_color) {
-	int dx = x2 - x1;
-	int dy = y2 - y1;
-	VGA_draw_pixel(x1, y1, pixel_color);
-	int x = x1;
-	int y;
-	while (x <= x2) {
-		x += (dx > 0) ? 1 : -1;
-		y = y1 + dy * (x - x1) / dx;
-		VGA_draw_pixel(x1, y, pixel_color);
+	float dx = x2 - x1;
+	float dy = y2 - y1;
+	float error = -1;
+	float derror = abs(dy/dx);
+
+	int y = y1;
+	int x;
+
+	for (x = x1; x < x2 - 1; x++) {
+		VGA_draw_pixel(x, y, pixel_color);
+		error += derror;
+
+		if (error > 0) {
+			y++;
+			error--;
+		}
 	}
 }
 

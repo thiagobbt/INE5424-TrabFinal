@@ -15,9 +15,19 @@ extern void LCD_cursor(int x, int y);
 extern void LCD_text(char* text_ptr);
 
 /****************************************************************************************
+ * Subroutine to clear the LCD
+ ****************************************************************************************/
+extern void LCD_clear();
+
+/****************************************************************************************
  * Subroutine to turn off the LCD cursor
  ****************************************************************************************/
 extern void LCD_cursor_off();
+
+/****************************************************************************************
+ * Subroutine to convert a regular RGB color to the color expected by the VGA
+ ****************************************************************************************/
+extern short VGA_get_color(unsigned char R, unsigned char G, unsigned char B);
 
 /****************************************************************************************
  * Subroutine to send a string of text to the VGA monitor 
