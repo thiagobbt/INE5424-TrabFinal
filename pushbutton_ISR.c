@@ -1,4 +1,5 @@
-extern volatile int buffer_index;
+#include "utils.h"
+#include "pointers.h"
 
 /***************************************************************************************
  * Pushbutton - Interrupt Service Routine                                
@@ -7,29 +8,22 @@ extern volatile int buffer_index;
  * value to the global variable key_pressed. If it is KEY3 then it loads the SW switch 
  * values and stores in the variable pattern
 ****************************************************************************************/
-void pushbutton_ISR() {
-	/*volatile int* KEY_ptr = (int*) 0x10000050;
-	volatile int* audio_ptr = (int*) 0x10003040;	// audio port address
-	
+void pushbutton_ISR() {	
 	int KEY_value;
 
 	KEY_value = *(KEY_ptr + 3);			// read the pushbutton interrupt register
 	*(KEY_ptr + 3) = 0; 						// Clear the interrupt
+	char sup[] = "Hallo\0";
 
-	if (KEY_value == 0x2)					// check KEY1 {
-		// reset the buffer index for recording
-		buffer_index = 0;
-		// clear audio-in FIFO
-		*(audio_ptr) = 0x4;
-		// turn off clear, and enable audio-in interrupts
-		*(audio_ptr) = 0x1;
+	if (KEY_value == 0x2) {
+		// check KEY1 {
+		//VGA_text_clear();
+		VGA_clear_screen();
+	} else if (KEY_value == 0x4) {
+		// check KEY2
+		VGA_draw_line(10, 10, 100, 10, 0xFF);
+	} else if (KEY_value == 0x8) {
+		// check KEY3
+		VGA_draw_filled_circle(10, 10, 5, 0xFF);
 	}
-	else if (KEY_value == 0x4)				// check KEY2 {
-		// reset counter to start playback
-		buffer_index = 0;
-		// clear audio-out FIFO
-		*(audio_ptr) = 0x8;
-		// turn off clear, and enable audio-out interrupts
-		*(audio_ptr) = 0x2;
-	}*/
 }

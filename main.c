@@ -33,7 +33,7 @@ int main() {
 
 	while (1) {
 		while (!timeout); // wait to synchronize with timer 
-		interrupt_handler();
+		oi();
 	}
 }
 
@@ -41,7 +41,8 @@ void init_vars() {
 	timeout = 0;	// synchronize with the timer
 	text_length = 20;
 
-	for (int i = 0; i < text_length; i++) {
+	int i;
+	for (i = 0; i < text_length; i++) {
 		text_erase[i] = ' ';
 	}
 	text_erase[text_length] = '\0';
@@ -67,7 +68,7 @@ void init() {
 	NIOS2_WRITE_STATUS(1);		// enable Nios II interrupts
 }
 
-void interrupt_handler() {
+void oi() {
 	// display PS/2 data (from interrupt service routine) on HEX displays
 	// HEX_PS2(byte1, byte2, byte3);
 	char values[] = {1, 2, 3, 4, 5, 6, 7, 8};

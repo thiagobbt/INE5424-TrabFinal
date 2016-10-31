@@ -13,14 +13,16 @@ void display7seg(char values[8]) {
 	unsigned int shift_buffer = 0;
 	unsigned int shift = 28;
 	unsigned int size = 8;
-	for (int i = 0; i < size; i++) {
+
+	int i;
+	for (i = 0; i < size; i++) {
 		if (values[i] != -1) {
 			shift_buffer |= values[i] << shift;
 		}
 		shift -= 4;
 	}
 
-	for (int i = 0; i < size; i++) {
+	for (i = 0; i < size; i++) {
 		unsigned char nibble = shift_buffer & 0x0000000F;
 		unsigned char code = seven_seg_decode_table[nibble];
 		unsigned int reversed = size - 1 - i;
@@ -63,8 +65,10 @@ void VGA_text(int x, int y, char* text_ptr) {
 }
 
 void VGA_text_clear() {
-	int bitmask = 1 << 15;
-	*character_buffer = bitmask;
+	int i;
+	for (i = 0; i < 60; ++i)	{
+		VGA_text_clear_line(i);
+	}
 }
 
 void VGA_text_clear_line(int n) {
@@ -78,9 +82,10 @@ inline void VGA_draw_pixel(int x, int y, short pixel_color) {
 }
 
 void VGA_box(int x1, int y1, int x2, int y2, short pixel_color) {
+	int row, col;
 	// assume that the box coordinates are valid
-	for (int row = y1; row <= y2; row++) {
-		for (int col = x1; col <= x2; col++) {
+	for (row = y1; row <= y2; row++) {
+		for (col = x1; col <= x2; col++) {
 			VGA_draw_pixel(col, row, pixel_color);
 		}
 	}
@@ -89,11 +94,13 @@ void VGA_box(int x1, int y1, int x2, int y2, short pixel_color) {
 void VGA_draw_line(int x1, int y1, int x2, int y2, short pixel_color) {
 	int dx = x2 - x1;
 	int dy = y2 - y1;
-	VGA_draw_pixel(x1, y1);
-	while (x1 <= x2) {
-		x1 += (dx > 0) ? 1 : -1;
+	VGA_draw_pixel(x1, y1, pixel_color);
+	int x = x1;
+	int y;
+	while (x <= x2) {
+		x += (dx > 0) ? 1 : -1;
 		y = y1 + dy * (x - x1) / dx;
-		VGA_draw_pixel(x1, y);
+		VGA_draw_pixel(x1, y, pixel_color);
 	}
 }
 
@@ -103,14 +110,14 @@ void VGA_draw_circle(int xc, int yc, int radius, short pixel_color) {
 	int err = 0;
 
 	while (x >= y) {
-		VGA_draw_pixel(xc + x, yc + y);
-		VGA_draw_pixel(xc + y, yc + x);
-		VGA_draw_pixel(xc - y, yc + x);
-		VGA_draw_pixel(xc - x, yc + y);
-		VGA_draw_pixel(xc - x, yc - y);
-		VGA_draw_pixel(xc - y, yc - x);
-		VGA_draw_pixel(xc + y, yc - x);
-		VGA_draw_pixel(xc + x, yc - y);
+		VGA_draw_pixel(xc + x, yc + y, pixel_color);
+		VGA_draw_pixel(xc + y, yc + x, pixel_color);
+		VGA_draw_pixel(xc - y, yc + x, pixel_color);
+		VGA_draw_pixel(xc - x, yc + y, pixel_color);
+		VGA_draw_pixel(xc - x, yc - y, pixel_color);
+		VGA_draw_pixel(xc - y, yc - x, pixel_color);
+		VGA_draw_pixel(xc + y, yc - x, pixel_color);
+		VGA_draw_pixel(xc + x, yc - y, pixel_color);
 		y++;
 		err += 1 + 2 * y;
 		if (2 * (err - x) + 1 > 0) {
@@ -121,10 +128,11 @@ void VGA_draw_circle(int xc, int yc, int radius, short pixel_color) {
 }
 
 void VGA_draw_filled_circle (int xc, int yc, int radius, short pixel_color) {
-	for (int y = yc - radius; y <= yc + radius; y++) {
-		for (int x = xc - radius; x <= xc + radius; x++) {
+	int y, x;
+	for (y = radius; y <= radius; y++) {
+		for (x = radius; x <= radius; x++) {
 			if ((x * x) + (y * y) <= (radius * radius)) {
-				VGA_draw_pixel(x, y, pixel_color);
+				VGA_draw_pixel(x + xc, y + yc, pixel_color);
 			}
 		}
 	}
