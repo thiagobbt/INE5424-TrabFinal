@@ -3,11 +3,11 @@ TimeQuest Timing Analyzer Summary
 ------------------------------------------------------------
 
 Type  : Slow Model Setup 'NiosII|external_clocks|DE_Clock_Generator_System|pll|clk[0]'
-Slack : 6.897
+Slack : 6.055
 TNS   : 0.000
 
 Type  : Slow Model Setup 'NiosII|external_clocks|DE_Clock_Generator_System|pll|clk[2]'
-Slack : 33.301
+Slack : 33.662
 TNS   : 0.000
 
 Type  : Slow Model Hold 'NiosII|external_clocks|DE_Clock_Generator_System|pll|clk[0]'
@@ -19,19 +19,19 @@ Slack : 0.391
 TNS   : 0.000
 
 Type  : Slow Model Recovery 'NiosII|external_clocks|DE_Clock_Generator_System|pll|clk[0]'
-Slack : 6.110
+Slack : 5.487
 TNS   : 0.000
 
 Type  : Slow Model Recovery 'NiosII|external_clocks|DE_Clock_Generator_System|pll|clk[2]'
-Slack : 17.534
+Slack : 17.820
 TNS   : 0.000
 
 Type  : Slow Model Removal 'NiosII|external_clocks|DE_Clock_Generator_System|pll|clk[0]'
-Slack : 1.030
+Slack : 1.728
 TNS   : 0.000
 
 Type  : Slow Model Removal 'NiosII|external_clocks|DE_Clock_Generator_System|pll|clk[2]'
-Slack : 21.734
+Slack : 21.719
 TNS   : 0.000
 
 Type  : Slow Model Minimum Pulse Width 'NiosII|external_clocks|DE_Clock_Generator_System|pll|clk[0]'
@@ -51,11 +51,11 @@ Slack : 97.778
 TNS   : 0.000
 
 Type  : Fast Model Setup 'NiosII|external_clocks|DE_Clock_Generator_System|pll|clk[0]'
-Slack : 8.640
+Slack : 8.175
 TNS   : 0.000
 
 Type  : Fast Model Setup 'NiosII|external_clocks|DE_Clock_Generator_System|pll|clk[2]'
-Slack : 36.432
+Slack : 36.562
 TNS   : 0.000
 
 Type  : Fast Model Hold 'NiosII|external_clocks|DE_Clock_Generator_System|pll|clk[0]'
@@ -67,19 +67,19 @@ Slack : 0.215
 TNS   : 0.000
 
 Type  : Fast Model Recovery 'NiosII|external_clocks|DE_Clock_Generator_System|pll|clk[0]'
-Slack : 7.810
+Slack : 7.495
 TNS   : 0.000
 
 Type  : Fast Model Recovery 'NiosII|external_clocks|DE_Clock_Generator_System|pll|clk[2]'
-Slack : 18.760
+Slack : 18.889
 TNS   : 0.000
 
 Type  : Fast Model Removal 'NiosII|external_clocks|DE_Clock_Generator_System|pll|clk[0]'
-Slack : 0.581
+Slack : 0.973
 TNS   : 0.000
 
 Type  : Fast Model Removal 'NiosII|external_clocks|DE_Clock_Generator_System|pll|clk[2]'
-Slack : 20.895
+Slack : 20.890
 TNS   : 0.000
 
 Type  : Fast Model Minimum Pulse Width 'NiosII|external_clocks|DE_Clock_Generator_System|pll|clk[0]'

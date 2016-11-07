@@ -5,19 +5,15 @@
   <columns>
    <connections preferredWidth="30" />
    <irq preferredWidth="34" />
-   <description preferredWidth="194" />
-   <export preferredWidth="177" />
-   <name preferredWidth="207" />
   </columns>
  </systemtable>
  <clocktable>
   <columns>
-   <clockname preferredWidth="307" />
-   <clocksource preferredWidth="306" />
-   <frequency preferredWidth="293" />
+   <clockname preferredWidth="360" />
+   <clocksource preferredWidth="360" />
+   <frequency preferredWidth="340" />
   </columns>
  </clocktable>
- <library expandedCategories="Project,Library" />
- <window width="1374" height="739" x="-4" y="14" />
- <hdlexample language="VERILOG" />
+ <library expandedCategories="Library,Project" />
+ <window width="1376" height="761" x="-5" y="-7" />
 </preferences>

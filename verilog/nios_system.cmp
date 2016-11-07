@@ -40,6 +40,8 @@
 			zs_we_n_from_the_SDRAM                 : out   std_logic;                                        -- we_n
 			LEDG_from_the_Green_LEDs               : out   std_logic_vector(8 downto 0);                     -- export
 			SW_to_the_Slider_Switches              : in    std_logic_vector(17 downto 0) := (others => 'X'); -- export
+			PS2_CLK_to_and_from_the_PS2_Port       : inout std_logic                     := 'X';             -- CLK
+			PS2_DAT_to_and_from_the_PS2_Port       : inout std_logic                     := 'X';             -- DAT
 			KEY_to_the_Pushbuttons                 : in    std_logic_vector(3 downto 0)  := (others => 'X'); -- export
 			clk                                    : in    std_logic                     := 'X';             -- clk
 			HEX0_from_the_HEX3_HEX0                : out   std_logic_vector(6 downto 0);                     -- HEX0
@@ -48,7 +50,13 @@
 			HEX3_from_the_HEX3_HEX0                : out   std_logic_vector(6 downto 0);                     -- HEX3
 			clk_27                                 : in    std_logic                     := 'X';             -- clk
 			sdram_clk                              : out   std_logic;                                        -- clk
-			audio_clk                              : out   std_logic                                         -- clk
+			audio_clk                              : out   std_logic;                                        -- clk
+			flash_ADDR                             : out   std_logic_vector(21 downto 0);                    -- ADDR
+			flash_CE_N                             : out   std_logic;                                        -- CE_N
+			flash_OE_N                             : out   std_logic;                                        -- OE_N
+			flash_WE_N                             : out   std_logic;                                        -- WE_N
+			flash_RST_N                            : out   std_logic;                                        -- RST_N
+			flash_DQ                               : inout std_logic_vector(7 downto 0)  := (others => 'X')  -- DQ
 		);
 	end component nios_system;
 

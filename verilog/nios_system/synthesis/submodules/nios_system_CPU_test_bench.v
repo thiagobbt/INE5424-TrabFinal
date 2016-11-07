@@ -80,7 +80,7 @@ module nios_system_CPU_test_bench (
   input   [  5: 0] W_iw_opx;
   input   [ 27: 0] W_pcb;
   input            W_valid;
-  input   [ 55: 0] W_vinst;
+  input   [ 63: 0] W_vinst;
   input            W_wr_dst_reg;
   input            clk;
   input   [ 28: 0] d_address;
@@ -165,6 +165,7 @@ module nios_system_CPU_test_bench (
   wire             W_op_flushda;
   wire             W_op_flushi;
   wire             W_op_flushp;
+  wire             W_op_fpoint_0;
   wire             W_op_hbreak;
   wire             W_op_initd;
   wire             W_op_initda;
@@ -383,6 +384,7 @@ module nios_system_CPU_test_bench (
   assign W_op_rsvx56 = W_op_opx & (W_iw_opx == 56);
   assign W_op_rsvx60 = W_op_opx & (W_iw_opx == 60);
   assign W_op_rsvx63 = W_op_opx & (W_iw_opx == 63);
+  assign W_op_fpoint_0 = W_op_custom & 1'b1;
   assign W_op_opx = W_iw_op == 58;
   assign W_op_custom = W_iw_op == 50;
   always @(posedge clk or negedge reset_n)

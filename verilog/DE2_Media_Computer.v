@@ -9,25 +9,6 @@ module DE2_Media_Computer (
 
 	//  Communication
 	UART_RXD,
-	
-	// Audio
-	AUD_ADCDAT,
-	
-	//IrDA
-	IRDA_RXD,
-
-	// Video In
-	TD_CLK27,
-	TD_DATA,
-	TD_HS,
-	TD_VS,
-	
-	// Ethernet
-	ENET_INT,
-	
-	// USB
-	OTG_INT0,
-	OTG_INT1,
 
 /*****************************************************************************/
 	// Bidirectionals
@@ -37,45 +18,23 @@ module DE2_Media_Computer (
 	// Memory (SRAM)
 	SRAM_DQ,
 	
+	//Flash
+	FL_DQ,
+	
 	// Memory (SDRAM)
 	DRAM_DQ,
-
+	
 	// PS2 Port
 	PS2_CLK,
 	PS2_DAT,
 	
-	// Audio
-	AUD_BCLK,
-	AUD_ADCLRCK,
-	AUD_DACLRCK,
-	
 	// Char LCD 16x2
 	LCD_DATA,
-
-	// AV Config
-	I2C_SDAT,
-	
-	//SD Card
-	SD_CMD,
-	SD_DAT,
-	SD_DAT3,
-	
-	//Flash
-	FL_DQ,
-	
-	// Ethernet
-	ENET_DATA,
-	
-	//USB
-	OTG_DATA,
 	
 /*****************************************************************************/
 	// Outputs
 	
 	// 	Simple
-	LEDG,
-	LEDR,
-
 	HEX0,
 	HEX1,
 	HEX2,
@@ -111,10 +70,6 @@ module DE2_Media_Computer (
 	DRAM_UDQM,
 	DRAM_LDQM,
 	
-	// Audio
-	AUD_XCK,
-	AUD_DACDAT,
-	
 	// VGA
 	VGA_CLK,
 	VGA_HS,
@@ -124,6 +79,13 @@ module DE2_Media_Computer (
 	VGA_R,
 	VGA_G,
 	VGA_B,
+	
+	//Flash
+	FL_ADDR,
+	FL_CE_N,
+	FL_OE_N,
+	FL_RST_N,
+	FL_WE_N,
 
 	// Char LCD 16x2
 	LCD_ON,
@@ -131,40 +93,6 @@ module DE2_Media_Computer (
 	LCD_EN,
 	LCD_RS,
 	LCD_RW,
-	
-	// AV Config
-	I2C_SCLK,
-	
-	//SD Card
-	SD_CLK,
-	
-	//Flash
-	FL_ADDR,
-   FL_CE_N,
-	FL_OE_N,
-	FL_RST_N,
-	FL_WE_N,
-	
-	//IrDA
-	IRDA_TXD,
-	
-	//Video In
-	TD_RESET,
-	
-	// Ethernet
-	ENET_CMD,
-	ENET_CS_N,
-	ENET_RD_N,
-	ENET_RST_N,
-	ENET_WR_N,
-	ENET_CLK,
-	
-	// USB
-	OTG_ADDR,
-	OTG_CS_N,
-	OTG_RD_N,
-	OTG_RST_N,
-	OTG_WR_N,
 );
 
 /*****************************************************************************
@@ -186,25 +114,6 @@ input		[17:0]	SW;
 //  Communication
 input				UART_RXD;
 
-//  Audio
-input				AUD_ADCDAT;
-
-//  IrDA
-input				IRDA_RXD;
-
-// Video In
-input 	[7:0]	TD_DATA;
-input   			TD_HS;
-input  			TD_VS;
-input 			TD_CLK27;
-
-// Enternet
-input				ENET_INT;
-
-// USB
-input          OTG_INT0;
-input          OTG_INT1;
-
 // Bidirectionals
 inout		[35:0]	GPIO_0;
 inout		[35:0]	GPIO_1;
@@ -219,37 +128,15 @@ inout		[15:0]	DRAM_DQ;
 inout				PS2_CLK;
 inout				PS2_DAT;
 
-//  Audio
-inout				AUD_BCLK;
-inout				AUD_ADCLRCK;
-inout				AUD_DACLRCK;
-
-//  AV Config
-inout				I2C_SDAT;
-
 //  Char LCD 16x2
 inout		[ 7: 0]	LCD_DATA;
-
-// SD Card
-inout 			SD_CMD;
-inout 			SD_DAT;
-inout 			SD_DAT3;
 
 // Flash
 inout 	[ 7: 0]  FL_DQ; 
 
-// Ethernet
-inout 	[15: 0]  ENET_DATA;
-
-// USB
-inout    [15: 0]  OTG_DATA;
-
 // Outputs
 
 // 	Simple
-output		[8:0]	LEDG;
-output		[17:0]	LEDR;
-
 output		[6:0]	HEX0;
 output		[6:0]	HEX1;
 output		[6:0]	HEX2;
@@ -285,10 +172,6 @@ output				DRAM_WE_N;
 output				DRAM_UDQM;
 output				DRAM_LDQM;
 
-//  Audio
-output				AUD_XCK;
-output				AUD_DACDAT;
-
 //  VGA
 output				VGA_CLK;
 output				VGA_HS;
@@ -306,40 +189,12 @@ output				LCD_EN;
 output				LCD_RS;
 output				LCD_RW;
 
-//  AV Config
-output				I2C_SCLK;
-
-//  SD Card
-output 				SD_CLK;
-
 //  Flash
 output 		[21: 0]	FL_ADDR;
 output 				FL_CE_N;
 output				FL_OE_N;
 output				FL_RST_N;
 output				FL_WE_N;
-   
-//  IrDA
-output				IRDA_TXD;
-   
-//  Video In
-output   			TD_RESET;
-
-// Ethernet
-output				ENET_CMD;
-output				ENET_CS_N;
-output				ENET_RD_N;
-output				ENET_RST_N;
-output				ENET_WR_N;
-output				ENET_CLK;
-
-//USB
-output      [ 1: 0]  OTG_ADDR;
-output				OTG_CS_N;
-output				OTG_RD_N;
-output				OTG_RST_N;
-output				OTG_WR_N;
-
 
 
 /*****************************************************************************
@@ -386,11 +241,13 @@ nios_system NiosII (
 	// 1) global signals:
 	.clk									(CLOCK_50),
 	.clk_27									(CLOCK_27),
-	.reset_n								(KEY[0]),
+	.reset_n								(1'b1),
+	
 	.sys_clk								(),
 	.vga_clk								(clk_25),
 	.sdram_clk								(DRAM_CLK),
-	
+	.audio_clk								(AUD_XCK),
+
 	// the_Char_LCD_16x2
 	.LCD_DATA_to_and_from_the_Char_LCD_16x2	(LCD_DATA),
 	.LCD_ON_from_the_Char_LCD_16x2			(LCD_ON),
@@ -398,9 +255,6 @@ nios_system NiosII (
 	.LCD_EN_from_the_Char_LCD_16x2			(LCD_EN),
 	.LCD_RS_from_the_Char_LCD_16x2			(LCD_RS),
 	.LCD_RW_from_the_Char_LCD_16x2			(LCD_RW),
-
-	// the_Green_LEDs
-	.LEDG_from_the_Green_LEDs				(LEDG),
 
 	// the_HEX3_HEX0
 	.HEX0_from_the_HEX3_HEX0				(HEX0),
@@ -414,11 +268,12 @@ nios_system NiosII (
 	.HEX6_from_the_HEX7_HEX4				(HEX6),
 	.HEX7_from_the_HEX7_HEX4				(HEX7),
 	
-	// the_Pushbuttons
-	.KEY_to_the_Pushbuttons					({KEY[3:1], 1'b1}),
+	// the_PS2_Port
+	.PS2_CLK_to_and_from_the_PS2_Port		(PS2_CLK),
+	.PS2_DAT_to_and_from_the_PS2_Port		(PS2_DAT),
 
-	// the_Red_LEDs
-	.LEDR_from_the_Red_LEDs					(LEDR),
+	// the_Pushbuttons
+	.KEY_to_the_Pushbuttons					(KEY[3:0]),
 	
 	// the_SDRAM
 	.zs_addr_from_the_SDRAM					(DRAM_ADDR),
@@ -451,7 +306,15 @@ nios_system NiosII (
 	.VGA_SYNC_from_the_VGA_Controller		(VGA_SYNC),
 	.VGA_R_from_the_VGA_Controller			(VGA_R),
 	.VGA_G_from_the_VGA_Controller			(VGA_G),
-	.VGA_B_from_the_VGA_Controller			(VGA_B)
+	.VGA_B_from_the_VGA_Controller			(VGA_B),
+	
+	// the Flash
+	.flash_ADDR                             (FL_ADDR),
+   .flash_CE_N                             (FL_CE_N),
+   .flash_OE_N                             (FL_OE_N),
+   .flash_WE_N                             (FL_WE_N),
+   .flash_RST_N                            (FL_RST_N),
+   .flash_DQ                               (FL_DQ),
 );
 
 endmodule

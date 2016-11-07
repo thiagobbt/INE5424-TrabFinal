@@ -20,7 +20,7 @@
 FUNCTION a_dpfifo_sn31 (clock, data[17..0], rreq, sclr, wreq)
 RETURNS ( empty, full, q[17..0], usedw[6..0]);
 
---synthesis_resources = lut 20 M4K 1 reg 37 
+--synthesis_resources = M4K 1 reg 17 
 SUBDESIGN scfifo_70a1
 ( 
 	almost_empty	:	output;
