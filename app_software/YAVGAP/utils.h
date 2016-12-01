@@ -7,7 +7,6 @@ extern short green;
 extern short blue;
 extern short color;
 
-extern short rect_mode;
 extern short fill_mode;
 
 

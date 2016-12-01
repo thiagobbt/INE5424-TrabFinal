@@ -1,7 +1,7 @@
 #include "utils.h"
 #include "pointers.h"
 
-const int KEY0 = 0x0;
+const int KEY0 = 0x1;
 const int KEY1 = 0x2;
 const int KEY2 = 0x4;
 const int KEY3 = 0x8;
@@ -10,6 +10,8 @@ int line_x1 = -1;
 int line_y1 = -1;
 int rect_x1 = -1;
 int rect_y1 = -1;
+int center_x = -1;
+int center_y = -1;
 
 void display_coords(int row, int column) {
 	int row_hundreds = row / 100;
@@ -40,10 +42,12 @@ void clear_memory() {
 	line_y1 = -1;
 	rect_x1 = -1;
 	rect_y1 = -1;
+	center_x = -1;
+	center_y = -1;
 	clear7seg();
 }
 
-void key1(int row, int column) {
+void key0(int row, int column) {
 	clear_memory();
 	if (row == 0 && column == 0) {
 		VGA_clear_screen();
@@ -69,15 +73,6 @@ void key1(int row, int column) {
 				LCD_text("R");
 				break;
 			case 8:
-				rect_mode = 1 - rect_mode;
-				LCD_cursor(15, 1);
-				if (rect_mode) {
-					LCD_text("R");
-				} else {
-					LCD_text("L");
-				}
-				break;
-			case 16:
 				fill_mode = 1 - fill_mode;
 				LCD_cursor(14, 0);
 				if (fill_mode) {
@@ -86,39 +81,66 @@ void key1(int row, int column) {
 					LCD_text(" ");
 				}
 				break;
+			case 16: {
+				short yellow = VGA_get_color(255, 255, 0);
+				VGA_draw_filled_rect(100, 60, 220, 180, 0);
+				VGA_draw_circle(160, 110, 30, yellow);
+				VGA_draw_filled_rect(130, 80, 190, 130, 0);
+				VGA_draw_circle(160, 120, 50, yellow);
+				VGA_draw_circle(145, 100, 5, yellow);
+				VGA_draw_circle(175, 100, 5, yellow);
+				break;
+			}
 		}
 	} else {
 		VGA_text(column, row, "INE5424\0");
 	}
 }
 
-void key2(int row, int column) {
-	if (rect_mode) {
-		if (rect_x1 == -1) {
-			clear_memory();
-			rect_x1 = column;
-			rect_y1 = row;
-			display_coords(row, column);
-		} else {
-			if (fill_mode) {
-				VGA_draw_filled_rect(rect_x1, rect_y1, column, row, color);
-			} else {
-				VGA_draw_rect(rect_x1, rect_y1, column, row, color);
-			}
-			display_coords(0, 0);
-			clear_memory();
-		}
+void key1(int row, int column) {
+	if (line_x1 == -1) {
+		clear_memory();
+		line_x1 = column;
+		line_y1 = row;
+		display_coords(row, column);
 	} else {
-		if (line_x1 == -1) {
-			clear_memory();
-			line_x1 = column;
-			line_y1 = row;
-			display_coords(row, column);
+		VGA_draw_line(line_x1, line_y1, column, row, color);
+		display_coords(0, 0);
+		clear_memory();
+	}
+}
+
+void key2(int row, int column) {
+	if (rect_x1 == -1) {
+		clear_memory();
+		rect_x1 = column;
+		rect_y1 = row;
+		display_coords(row, column);
+	} else {
+		if (fill_mode) {
+			VGA_draw_filled_rect(rect_x1, rect_y1, column, row, color);
 		} else {
-			VGA_draw_line(line_x1, line_y1, column, row, color);
-			display_coords(0, 0);
-			clear_memory();
+			VGA_draw_rect(rect_x1, rect_y1, column, row, color);
 		}
+		display_coords(0, 0);
+		clear_memory();
+	}
+}
+
+void key3(int row, int column) {
+	if (center_x == -1) {
+		clear_memory();
+		center_x = column;
+		center_y = row;
+		display_coords(row, column);
+	} else {
+		if (fill_mode) {
+			VGA_draw_filled_circle(center_x, center_y, row, color);
+		} else {
+			VGA_draw_circle(center_x, center_y, row, color);
+		}
+		display_coords(0, 0);
+		clear_memory();
 	}
 }
 
@@ -139,16 +161,13 @@ void pushbutton_ISR() {
 	int row = (SWITCH_value & 0x3fe00) >> 9;
 	int column = SWITCH_value & 0x001ff;
 
-	if (KEY_value == KEY1) {
+	if (KEY_value == KEY0) {
+		key0(row, column);
+	} else if (KEY_value == KEY1) {
 		key1(row, column);
 	} else if (KEY_value == KEY2) {
 		key2(row, column);
 	} else if (KEY_value == KEY3) {
-		if (fill_mode) {
-			VGA_draw_filled_circle(column, row, 30, color);
-		} else {
-			VGA_draw_circle(column, row, 30, color);
-		}
-		clear_memory();
+		key3(row, column);
 	}
 }

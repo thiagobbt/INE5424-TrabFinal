@@ -11,7 +11,6 @@ short red;
 short green;
 short blue;
 short color;
-short rect_mode = 0;
 short fill_mode = 0;
 
 void display7seg(char values[8]) {

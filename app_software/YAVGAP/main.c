@@ -56,7 +56,7 @@ void init() {
 
 	// start interval timer, enable its interrupts
 	*(interval_timer_ptr + 1) = 0x7;	// STOP = 0, START = 1, CONT = 1, ITO = 1 
-	*(KEY_ptr + 2) = 0xE;			/* write to the pushbutton interrupt mask register, and
+	*(KEY_ptr + 2) = 0xF;			/* write to the pushbutton interrupt mask register, and
 									 * set 3 mask bits to 1 (bit 0 is Nios II reset) */
 	*(PS2_ptr) = 0xFF;				// reset
 	*(PS2_ptr + 1) = 0x1;			// write to the PS/2 Control register to enable interrupts
@@ -94,13 +94,6 @@ void interrupt_callback() {
 			case -2048: LCD_text("R"); break;
 			case 2016: LCD_text("G"); break;
 			case 31: LCD_text("B"); break;
-		}
-
-		LCD_cursor(15, 1);
-		if (rect_mode) {
-			LCD_text("R");
-		} else {
-			LCD_text("L");
 		}
 
 		LCD_cursor(14, 0);
