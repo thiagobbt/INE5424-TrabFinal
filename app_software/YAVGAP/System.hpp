@@ -36,7 +36,6 @@ class System {
 	void init();
 	void onInterrupt();
 
-	static volatile int* const interval_timer_ptr;
 	static char text[40];
 	static char text_erase[40];
 	static volatile int timeout; // used to synchronize with the timer

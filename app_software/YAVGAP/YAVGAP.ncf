@@ -4,7 +4,7 @@
         <system_info filepath="true">../../verilog/nios_system.sopcinfo</system_info>
         <system_sof filepath="true">../../verilog/DE2_Media_Computer.sof</system_sof>
         <system_jdi filepath="true">../../verilog/DE2_Media_Computer.jdi</system_jdi>
-        <cable>null</cable>
+        <cable>USB-Blaster [3-1.3]</cable>
         <processor JTAGHubInstanceID="0">CPU</processor>
         <terminal JTAGHubInstanceID="0">JTAG_UART</terminal>
     </system>
@@ -20,6 +20,7 @@
                 <source_file filepath="true">System.cpp</source_file>
                 <source_file filepath="true">Traits.cpp</source_file>
                 <source_file filepath="true">utils.cpp</source_file>
+                <source_file filepath="true">pointers.cpp</source_file>
             </source_files>
             <bsp_settings_tcl_script filepath="true"/>
         </options>

@@ -1,6 +1,7 @@
 #include "sys/alt_stdio.h"
-#include "VGA.hpp"
 #include "Traits.hpp"
+#include "utils.hpp"
+#include "VGA.hpp"
 
 short red;
 short green;
@@ -9,7 +10,7 @@ short color;
 short rect_mode = 0;
 short fill_mode = 0;
 
-void display7seg(char values[8]) {
+void utils::display7seg(char values[8]) {
 	const unsigned char seven_seg_decode_table[] = {
 		0x3F, 0x06, 0x5B, 0x4F, 0x66, 0x6D, 0x7D, 0x07,
 		0x7F, 0x67, 0x77, 0x7C, 0x39, 0x5E, 0x79, 0x71
@@ -44,16 +45,12 @@ void display7seg(char values[8]) {
 	*(HEX7_HEX4_ptr) = *(int*) (hex_segs+4);
 }
 
-void clear7seg() {
+void utils::clear7seg() {
 	char values[] = {0, 0, 0, 0, 0, 0, 0, 0};
 	display7seg(values);
 }
 
-float absolute(float n) {
-	return n > 0 ? n : -n;
-}
-
-void reverse(char str[], int length) {
+void utils::reverse(char str[], int length) {
 	int start = 0;
 	int end = length -1;
 	while (start < end) {
@@ -66,7 +63,7 @@ void reverse(char str[], int length) {
 	}
 }
 
-char* itoa(int num, char* str, int base) {
+char* utils::itoa(int num, char* str, int base) {
 	int i = 0;
 	bool isNegative = false;
 
@@ -103,7 +100,7 @@ char* itoa(int num, char* str, int base) {
 	return str;
 }
 
-void init_colors() {
+void utils::initColors() {
 	red = VGA::getColor(0xFF, 0x00, 0x00);
 	green = VGA::getColor(0x00, 0xFF, 0x00);
 	blue = VGA::getColor(0x00, 0x00, 0xFF);

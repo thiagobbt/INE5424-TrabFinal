@@ -139,7 +139,7 @@ ACDS_VERSION := 13.0sp1
 # Define path to the application ELF. 
 # It may be used by the makefile fragments so is defined before including them. 
 # 
-ELF := /home_hdd/thiagobbt/UFSC/SOII/tmp/INE5424-TrabFinal/app_software/YAVGAP/main.elf
+ELF := /home_hdd/thiagobbt/UFSC/SOII/tmp/INE5424-TrabFinal/app_software/YAVGAP/exception_handler.elf
 
 # Paths to C, C++, and assembly source files.
 C_SRCS :=
@@ -149,6 +149,7 @@ CXX_SRCS += /home_hdd/thiagobbt/UFSC/SOII/tmp/INE5424-TrabFinal/app_software/YAV
 CXX_SRCS += /home_hdd/thiagobbt/UFSC/SOII/tmp/INE5424-TrabFinal/app_software/YAVGAP/exception_handler.cpp
 CXX_SRCS += /home_hdd/thiagobbt/UFSC/SOII/tmp/INE5424-TrabFinal/app_software/YAVGAP/interval_timer_ISR.cpp
 CXX_SRCS += /home_hdd/thiagobbt/UFSC/SOII/tmp/INE5424-TrabFinal/app_software/YAVGAP/main.cpp
+CXX_SRCS += /home_hdd/thiagobbt/UFSC/SOII/tmp/INE5424-TrabFinal/app_software/YAVGAP/pointers.cpp
 CXX_SRCS += /home_hdd/thiagobbt/UFSC/SOII/tmp/INE5424-TrabFinal/app_software/YAVGAP/pushbutton_ISR.cpp
 CXX_SRCS += /home_hdd/thiagobbt/UFSC/SOII/tmp/INE5424-TrabFinal/app_software/YAVGAP/utils.cpp
 ASM_SRCS :=

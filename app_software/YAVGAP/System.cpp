@@ -1,13 +1,14 @@
 #include "interval_timer_ISR.hpp"
 #include "LCD.hpp"
+#include "pointers.hpp"
 #include "pushbutton_ISR.hpp"
+#include "nios2_ctrl_reg_macros.hpp"
 #include "System.hpp"
 #include "sys/alt_irq.h"
 #include "sys/alt_stdio.h"
 #include "utils.hpp"
 #include "VGA.hpp"
 
-volatile int* const System::interval_timer_ptr = (int*) 0x10002000;
 char System::text[40] = "Operating Systems II\0";
 char System::text_erase[40] = "";
 volatile int System::timeout;
@@ -24,7 +25,7 @@ int System::execute() {
 	VGA::drawFilledRect(0, 0, VGA::SCREEN_WIDTH, VGA::SCREEN_HEIGHT, color);
 	VGA::text(0, 0, text);
 
-	clear7seg();
+	utils::clear7seg();
 
 
 	while (1) {
@@ -38,7 +39,7 @@ void System::setTimeout() {
 }
 
 void System::clearTimerInterrupt() {
-	*(interval_timer_ptr) = 0;
+	*(ptr::interval_timer_ptr) = 0;
 }
 
 int System::readKeys() {
@@ -72,63 +73,66 @@ void System::initVars() {
 }
 
 bool System::initDevices() {
-    lcd_dev = alt_up_character_lcd_open_dev("/dev/Char_LCD::16x2");
-    if (lcd_dev == NULL) {
-        alt_printf("Error: could not open character LCD device\n");
-        return false;
-    } else {
-        alt_printf("Opened character LCD device\n");
-    }
+    // lcd_dev = alt_up_character_lcd_open_dev("/dev/Char_LCD_16x2");
+    // if (lcd_dev == NULL) {
+    //     alt_printf("Error: could not open character LCD device\n");
+    //     return false;
+    // } else {
+    //     alt_printf("Opened character LCD device\n");
+    // }
 
-    pixel_buffer_dev = alt_up_pixel_buffer_dma_open_dev("/dev/VGA::Pixel_Buffer");
-    if (pixel_buffer_dev == NULL) alt_printf("Error: could not open pixel buffer device\n");
-    else alt_printf("Opened pixel buffer device\n");
+    // pixel_buffer_dev = alt_up_pixel_buffer_dma_open_dev("/dev/VGA_Pixel_Buffer");
+    // if (pixel_buffer_dev == NULL) alt_printf("Error: could not open pixel buffer device\n");
+    // else alt_printf("Opened pixel buffer device\n");
 
-    char_buffer_dev = alt_up_char_buffer_open_dev("/dev/VGA::Char_Buffer");
-    if (char_buffer_dev == NULL) alt_printf("Error: could not open character buffer device\n");
-    else alt_printf("Opened character buffer device\n");
+    // char_buffer_dev = alt_up_char_buffer_open_dev("/dev/VGA_Char_Buffer");
+    // if (char_buffer_dev == NULL) alt_printf("Error: could not open character buffer device\n");
+    // else alt_printf("Opened character buffer device\n");
 
-    KEY_dev = alt_up_parallel_port_open_dev("/dev/Pushbuttons");
-    if (KEY_dev == NULL) {
-        alt_printf("Error: could not open pushbutton KEY device\n");
-        return false;
-    } else {
-        alt_printf("Opened pushbutton KEY device\n");
-        up_dev.KEY_dev = KEY_dev;
-    }
+    // KEY_dev = alt_up_parallel_port_open_dev("/dev/Pushbuttons");
+    // if (KEY_dev == NULL) {
+    //     alt_printf("Error: could not open pushbutton KEY device\n");
+    //     return false;
+    // } else {
+    //     alt_printf("Opened pushbutton KEY device\n");
+    //     up_dev.KEY_dev = KEY_dev;
+    // }
 
-    switch_dev = alt_up_parallel_port_open_dev("/dev/Slider_Switches");
-    if (switch_dev == NULL) {
-        alt_printf("Error: could not open pushbutton KEY device\n");
-        return false;
-    } else {
-        alt_printf("Opened pushbutton KEY device\n");
-        up_dev.switch_dev = switch_dev;
-    }
+    // switch_dev = alt_up_parallel_port_open_dev("/dev/Slider_Switches");
+    // if (switch_dev == NULL) {
+    //     alt_printf("Error: could not open switches\n");
+    //     return false;
+    // } else {
+    //     alt_printf("Opened switches\n");
+    //     up_dev.switch_dev = switch_dev;
+    // }
 
     return true;
 }
 
 void System::init() {
 	initVars();
-	init_colors();
 	initDevices();
 
 	// set the interval timer period for scrolling the HEX displays
 	int counter = 0x960000;				// 1/(50 MHz) x (0x960000) ~= 200 msec
-	*(interval_timer_ptr + 0x2) = (counter & 0xFFFF);
-	*(interval_timer_ptr + 0x3) = (counter >> 16) & 0xFFFF;
+	*(ptr::interval_timer_ptr + 0x2) = (counter & 0xFFFF);
+	*(ptr::interval_timer_ptr + 0x3) = (counter >> 16) & 0xFFFF;
 
 	// start interval timer, enable its interrupts
-	*(interval_timer_ptr + 1) = 0x7;	// STOP = 0, START = 1, CONT = 1, ITO = 1 
-    alt_up_parallel_port_set_interrupt_mask(KEY_dev, 0xE);
+	*(ptr::interval_timer_ptr + 1) = 0x7;	// STOP = 0, START = 1, CONT = 1, ITO = 1 
+	*(ptr::KEY_ptr + 2) = 0xE;			/* write to the pushbutton interrupt mask register, and
+									 * set 3 mask bits to 1 (bit 0 is Nios II reset) */
+	*(ptr::PS2_ptr) = 0xFF;				// reset
+	*(ptr::PS2_ptr + 1) = 0x1;			// write to the PS/2 Control register to enable interrupts
 
-    /* Note: we are passsing a pointer to up_dev to each ISR (using the context argument) as
-     * a way of giving the ISR a pointer to every open device. This is useful because some of the
-     * ISRs need to access more than just one device (e.g. the pushbutton ISR accesses both
-     * the pushbutton device and the audio device) */
-    alt_irq_register(0, (void *)&up_dev, (void (*)(void *, alt_u32))interval_timer_ISR);
-    alt_irq_register(1, (void *)&up_dev, (void (*)(void *, alt_u32))pushbutton_ISR);
+	NIOS2_WRITE_IENABLE(0xC3);	/* set interrupt mask bits for levels 
+								 * 0 (interval timer)
+								 * 1 (pushbuttons)
+								 * 6 (audio)
+								 * 7 (PS/2)
+								 */
+	NIOS2_WRITE_STATUS(1);		// enable Nios II interrupts
 }
 
 void System::onInterrupt() {
@@ -141,10 +145,10 @@ void System::onInterrupt() {
 	int column = SWITCH_value & 0x001ff;
 
 	char left_text[10];
-	itoa(row, left_text, 10);
+	utils::itoa(row, left_text, 10);
 
 	char right_text[10];
-	itoa(column, right_text, 10);
+	utils::itoa(column, right_text, 10);
 
 	if (row != last_row || column != last_column) {
 		LCD::clear();

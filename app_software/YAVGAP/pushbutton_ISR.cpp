@@ -1,3 +1,4 @@
+#include "sys/alt_stdio.h"
 #include "LCD.hpp"
 #include "Traits.hpp"
 #include "utils.hpp"
@@ -24,7 +25,7 @@ void display_coords(int row, int column) {
 		0, row_hundreds, row_tens, row_ones,
 		0, column_hundreds, column_tens, column_ones
 	};
-	display7seg(values);
+	utils::display7seg(values);
 }
 
 void draw_olympic_logo() {
@@ -42,7 +43,7 @@ void clear_memory() {
 	line_y1 = -1;
 	rect_x1 = -1;
 	rect_y1 = -1;
-	clear7seg();
+	utils::clear7seg();
 }
 
 void key1(int row, int column) {
@@ -132,6 +133,7 @@ void key2(int row, int column) {
  * values and stores in the variable pattern
 ****************************************************************************************/
 void pushbutton_ISR() {
+	alt_printf("hello (push)");
 	int KEY_value = Traits::system.readKeys();
 	int SWITCH_value = Traits::system.readSwitches();
 
